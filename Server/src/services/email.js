@@ -10,7 +10,7 @@ async function enviarEmailTeste() {
 
         from: "onboarding@resend.dev",
 
-        to: ["matheusampaio098@gmail.com"],
+        to: ["process.env.RESPONSIBLE"],
 
         subject: "Teste API EPI",
 
