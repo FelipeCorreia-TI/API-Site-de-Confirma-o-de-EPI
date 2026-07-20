@@ -1,16 +1,15 @@
 {
-  "name": "server",
+  "name": "api-site-de-confirmacao-de-epi",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API para envio de emails de retirada de EPI",
+  "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "dotenv": "^17.4.2"
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "resend": "^6.0.0"
   }
 }
