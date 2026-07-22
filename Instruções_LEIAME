@@ -1,0 +1,3 @@
+...\API-Site-de-Confirma-o-de-EPI\Server
+npm init -y --Se o Package.json estiver vázio, exclua depois execute isso.
+npm install dotenv --Instalação definitiva .env
