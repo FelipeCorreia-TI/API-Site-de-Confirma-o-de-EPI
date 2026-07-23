@@ -10,10 +10,7 @@ async function enviarEmailTeste() {
 
         from: "onboarding@resend.dev",
 
-        to: ["matheusampaio098@gmail.com",
-            "matheus.sampaio@cpfl.com.br",
-            "cpfllinhas@gmail.com"
-        ],
+        to: ["cpfllinhas@gmail.com"],
 
         subject: "Teste API EPI",
 
@@ -34,10 +31,7 @@ async function enviarEmailRetirada(dados) {
 
         from: "onboarding@resend.dev",
 
-        to: ["matheusampaio098@gmail.com",
-            "matheus.sampaio@cpfl.com.br",
-            "cpfllinhas@gmail.com"
-        ],
+        to: ["cpfllinhas@gmail.com"],
 
         subject: `Nova Retirada de EPI - ${dados.nome}`,
 
