@@ -1,15 +1,5 @@
 {
-  "name": "api-site-de-confirmacao-de-epi",
-  "version": "1.0.0",
-  "description": "API para envio de emails de retirada de EPI",
-  "main": "src/server.js",
-  "scripts": {
-    "start": "node src/server.js"
-  },
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "resend": "^6.0.0"
+    "firebase-admin": "^14.2.0"
   }
 }
