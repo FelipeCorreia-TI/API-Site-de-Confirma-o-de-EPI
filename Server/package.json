@@ -1,5 +1,16 @@
 {
+  "name": "api-site-de-controle-de-epi",
+  "version": "1.0.0",
+  "description": "API para controle de retirada de EPIs",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node src/server.js",
+    "start": "node src/server.js"
+  },
   "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
     "firebase-admin": "^14.2.0"
   }
 }
