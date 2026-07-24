@@ -31,7 +31,7 @@ async function enviarEmailRetirada(dados) {
 
         from: "onboarding@resend.dev",
 
-      to: ["matheusampaio098@gmail.com"],
+        to: ["matheusampaio098@gmail.com"],
 
         subject: `Nova Retirada de EPI - ${dados.nome}`,
 
