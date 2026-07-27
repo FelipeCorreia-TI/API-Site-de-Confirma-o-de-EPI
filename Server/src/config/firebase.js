@@ -1,4 +1,5 @@
 const admin = require("firebase-admin");
+const { getApps } = require("firebase-admin/app");
 
 let credential;
 
@@ -19,14 +20,13 @@ if (process.env.FIREBASE_CREDENTIALS) {
     }
 }
 
-// Inicialização com a biblioteca clássica 'admin'
-if (!admin.apps.length && credential) {
+if (!getApps().length && credential) {
     admin.initializeApp({
         credential: admin.credential.cert(credential)
     });
 }
 
-// O db retornado pelo admin.firestore() POSSUI a função .collection()
+
 const db = admin.firestore();
 
 module.exports = { db };
