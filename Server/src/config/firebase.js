@@ -1,31 +1,32 @@
-const { initializeApp, cert, getApps} = require("firebase-admin/app");
-const {getFirestore} = require("firebase-admin/firestore");
+const admin = require("firebase-admin");
 
 let credential;
 
-if (process.env.FIREBASE_CREDENTIALS){
-    try{
+if (process.env.FIREBASE_CREDENTIALS) {
+    try {
         credential = JSON.parse(process.env.FIREBASE_CREDENTIALS);
-    } catch (erro){
-        console.log("Erro ao fazer parse da variavel FIREBASE_CREDENTIALS:",erro);
+        // Corrige a formatação da chave privada vinda do Render
+        if (credential.private_key) {
+            credential.private_key = credential.private_key.replace(/\\n/g, '\n');
+        }
+    } catch (erro) {
+        console.error("Erro ao fazer parse da variavel FIREBASE_CREDENTIALS:", erro);
     }
-}else{
-    try{
-        credential = require('../serviceAccountKey.json')
-    }catch(erro){
-        console.log("Arquivo serviceAccountKey.json nao encontrado localmente.");
+} else {
+    try {
+        credential = require('../serviceAccountKey.json');
+    } catch (erro) {
+        console.warn("Arquivo serviceAccountKey.json nao encontrado localmente.");
     }
 }
 
-
-
-if(!getApps().length && credential){
-    initializeApp({
-        credential: cert(credential)
+// Inicializa usando o admin
+if (!admin.apps.length && credential) {
+    admin.initializeApp({
+        credential: admin.credential.cert(credential)
     });
 }
 
+const db = admin.firestore();
 
-const db= getFirestore();
-
-module.exports = {db};
+module.exports = { db };
