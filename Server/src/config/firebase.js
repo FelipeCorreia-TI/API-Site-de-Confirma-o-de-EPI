@@ -1,12 +1,10 @@
-const { initializeApp, cert, getApps } = require("firebase-admin/app");
-const { getFirestore } = require("firebase-admin/firestore");
+const admin = require("firebase-admin");
 
 let credential;
 
 if (process.env.FIREBASE_CREDENTIALS) {
     try {
         credential = JSON.parse(process.env.FIREBASE_CREDENTIALS);
-        // Corrige a formatação da chave privada vinda do Render
         if (credential.private_key) {
             credential.private_key = credential.private_key.replace(/\\n/g, '\n');
         }
@@ -21,13 +19,14 @@ if (process.env.FIREBASE_CREDENTIALS) {
     }
 }
 
-// Inicialização segura
-if (!getApps().length && credential) {
-    initializeApp({
-        credential: cert(credential)
+// Inicialização com a biblioteca clássica 'admin'
+if (!admin.apps.length && credential) {
+    admin.initializeApp({
+        credential: admin.credential.cert(credential)
     });
 }
 
-const db = getFirestore();
+// O db retornado pelo admin.firestore() POSSUI a função .collection()
+const db = admin.firestore();
 
 module.exports = { db };
