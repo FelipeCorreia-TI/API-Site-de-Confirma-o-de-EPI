@@ -1,29 +1,31 @@
 const { initializeApp, cert, getApps} = require("firebase-admin/app");
 const {getFirestore} = require("firebase-admin/firestore");
-const path= require("path");
 
 let credential;
 
-if (process.env.FIREBASE_PRIVATE_KEY){
-    credential = cert ({
-        projectId: process.env.FIREBASE_PROJECT_ID,
-        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-        privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g,"\n")
-    })
+if (process.env.FIREBASE_CREDENTIALS){
+    try{
+        credential = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+    } catch (erro){
+        console.log("Erro ao fazer parse da variavel FIREBASE_CREDENTIALS:",erro);
+    }
 }else{
-    const serviceAccountPath = path.resolve(__dirname,"../serviceAccountKey.json")
-    const serviceAccount = require(serviceAccountPath);
-
-    credential = cert(serviceAccount)
+    try{
+        credential = require('../serviceAccountKey.json')
+    }catch(erro){
+        console.log("Arquivo serviceAccountKey.json nao encontrado localmente.");
+    }
 }
 
 
 
-if(!getApps().length){
-    initializeApp({credential});
+if(!getApps().length && credential){
+    initializeApp({
+        credential: cert(credential)
+    });
 }
 
 
 const db= getFirestore();
 
-module.exports = db;
+module.exports = {db};
