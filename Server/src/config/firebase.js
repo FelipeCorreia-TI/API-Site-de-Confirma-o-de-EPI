@@ -1,4 +1,5 @@
 const admin = require("firebase-admin");
+const {getApps} = require("firebase-admin/app");
 
 let credential;
 
@@ -21,7 +22,7 @@ if (process.env.FIREBASE_CREDENTIALS) {
 }
 
 // Inicializa usando o admin
-if (!admin.apps.length && credential) {
+if (!getApps().length && credential) {
     admin.initializeApp({
         credential: admin.credential.cert(credential)
     });
