@@ -1,5 +1,5 @@
-const admin = require("firebase-admin");
-const {getApps} = require("firebase-admin/app");
+const { initializeApp, cert, getApps } = require("firebase-admin/app");
+const { getFirestore } = require("firebase-admin/firestore");
 
 let credential;
 
@@ -21,13 +21,13 @@ if (process.env.FIREBASE_CREDENTIALS) {
     }
 }
 
-// Inicializa usando o admin
+// Inicialização segura
 if (!getApps().length && credential) {
-    admin.initializeApp({
-        credential: admin.credential.cert(credential)
+    initializeApp({
+        credential: cert(credential)
     });
 }
 
-const db = admin.firestore();
+const db = getFirestore();
 
 module.exports = { db };
