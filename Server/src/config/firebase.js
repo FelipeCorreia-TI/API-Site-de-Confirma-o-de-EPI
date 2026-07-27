@@ -1,11 +1,12 @@
 const admin = require("firebase-admin");
-const { getApps } = require("firebase-admin/app");
+const { initializeApp, cert, getApps } = require("firebase-admin/app");
 
 let credential;
 
 if (process.env.FIREBASE_CREDENTIALS) {
     try {
         credential = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+
         if (credential.private_key) {
             credential.private_key = credential.private_key.replace(/\\n/g, '\n');
         }
@@ -21,8 +22,8 @@ if (process.env.FIREBASE_CREDENTIALS) {
 }
 
 if (!getApps().length && credential) {
-    admin.initializeApp({
-        credential: admin.credential.cert(credential)
+    initializeApp({
+        credential: cert(credential)
     });
 }
 
