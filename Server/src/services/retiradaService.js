@@ -34,7 +34,7 @@ async function registrarEntrega(dados) {
     // 2. Fazer TODAS as escritas após a verificação
         
         // A) Grava o registro da entrega
-        const novaEntregaRef = db.collection("entregas").doc();
+        const novaEntregaRef = db.collection("retirada").doc();
         transaction.set(novaEntregaRef, {
             nome,
             baseOperacional,
