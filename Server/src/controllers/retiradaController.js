@@ -1,5 +1,5 @@
-const { registrarEntrega } = require("../services/entregaService");
-const { enviarEmailRetirada } = require("../services/email"); // Importa o envio de e-mail
+const { registrarEntrega } = require("../services/retiradaService");
+const { enviarEmailRetirada } = require("../services/emailService"); // Importa o envio de e-mail
 
 async function criarEntrega(req, res) {
     try {
