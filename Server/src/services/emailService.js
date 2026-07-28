@@ -1,22 +1,15 @@
 const { Resend } = require("resend");
 
-const resend = new Resend(
-    process.env.RESEND_API_KEY
-);
-    //email de teste!
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+// E-mail de teste
 async function enviarEmailTeste() {
-
     const resultado = await resend.emails.send({
-
         from: "onboarding@resend.dev",
-
         to: ["cpfllinhas@gmail.com"],
-
         subject: "Teste API EPI",
-
         html: `
             <h1>Teste realizado com sucesso!</h1>
-
             <p>A API do sistema de EPI está funcionando.</p>
         `
     });
@@ -24,40 +17,42 @@ async function enviarEmailTeste() {
     console.log(resultado);
 }
 
-    //EMAIL REAL!
+// E-mail de confirmação de retirada
 async function enviarEmailRetirada(dados) {
-    
+    // Formata a data atual se não for passada no payload
+    const dataFormatada = dados.dataEntrega 
+        ? new Date(dados.dataEntrega).toLocaleString("pt-BR") 
+        : new Date().toLocaleString("pt-BR");
+
     const resultado = await resend.emails.send({
-
         from: "onboarding@resend.dev",
-
         to: ["cpfllinhas@gmail.com"],
-
         subject: `Nova Retirada de EPI - ${dados.nome}`,
-
         html: `
             <h2>Nova Retirada de EPI</h2>
             
             <p><strong>Funcionário:</strong> ${dados.nome}</p>
+            <p><strong>Base Operacional:</strong> ${dados.baseOperacional}</p>
+            <p><strong>Data da Retirada:</strong> ${dataFormatada}</p>
 
-            <p><strong>Base Operacional:</strong> ${dados.baseoperacional}</p>
-
-            <p><strong>Data da Retirada:</strong> ${dados.dataretirada}</p>
-
-            <p><strong>Quantidade:</strong> ${dados.quantidade}</p>
-
-            <h3>Epis Retirados</h3>
-
+            <h3>EPIs Retirados</h3>
             <ul>
-                ${dados.episSelecionados
-                    .map(epi => `<li>${epi}</li>`)
-                    .join("")}
+                ${dados.itens && Array.isArray(dados.itens) 
+                    ? dados.itens.map(item => `<li><strong>${item.quantidade}x</strong> ${item.nome}</li>`).join("")
+                    : "<li>Nenhum item listado</li>"
+                }
             </ul>
+
+            ${dados.assinatura ? `
+                <h3>Assinatura do Funcionário</h3>
+                <img src="${dados.assinatura}" alt="Assinatura" style="max-width: 300px; border: 1px solid #ccc; padding: 5px;"/>
+            ` : ""}
         `
     });
 
-    console.log(resultado);
+    console.log("E-mail enviado com sucesso:", resultado);
 }
+
 module.exports = {
     enviarEmailTeste,
     enviarEmailRetirada
