@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const estoqueRoutes = require("./estoque");
+const entregaRoutes = require("./entrega");
 
 // Rota de Health Check
 router.get("/health", (req, res) => {
@@ -14,5 +15,6 @@ router.get("/health", (req, res) => {
 
 // Agrupamento das rotas de estoque (/api/estoque)
 router.use("/estoque", estoqueRoutes);
+router.use("/entrega", entregaRoutes);
 
 module.exports = router;
