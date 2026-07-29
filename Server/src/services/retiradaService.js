@@ -1,13 +1,31 @@
-const {db} = require("../config/firebase");
+const { db } = require("../config/firebase");
+
+
+function obterDataHoraSaoPaulo() {
+    const agora = new Date();
+    
+    
+    const formatador = new Intl.DateTimeFormat('pt-BR', {
+        timeZone: 'America/Sao_Paulo',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    });
+
+    return formatador.format(agora);
+}
 
 async function registrarEntrega(dados) {
     const { nome, baseOperacional, itens, assinatura } = dados;
 
-
     return await db.runTransaction(async (transaction) => {
         const leiturasEstoque = [];
 
-        // 1. Fazer TODAS as leituras primeiro (regra do Firestore para transações)
+   
         for (const item of itens) {
             const itemRef = db.collection("estoque").doc(item.id);
             const doc = await transaction.get(itemRef);
@@ -20,7 +38,7 @@ async function registrarEntrega(dados) {
             const qtdAtual = dadosItem.quantidade ?? dadosItem["quantidade "] ?? 0;
             const qtdSolicitada = Number(item.quantidade);
 
-            // Valida se há estoque suficiente antes de prosseguir
+           
             if (qtdAtual < qtdSolicitada) {
                 throw new Error(`Estoque insuficiente para o item "${dadosItem.nome || item.nome}". Disponível: ${qtdAtual}, Solicitado: ${qtdSolicitada}`);
             }
@@ -31,19 +49,20 @@ async function registrarEntrega(dados) {
             });
         }
 
-    // 2. Fazer TODAS as escritas após a verificação
+      
         
-        // A) Grava o registro da entrega
+        
         const novaEntregaRef = db.collection("retirada").doc();
         transaction.set(novaEntregaRef, {
             nome,
             baseOperacional,
             itens,
             assinatura,
-            dataEntrega: new Date().toISOString()
+            dataEntregaFormatted: obterDataHoraSaoPaulo(), 
+            dataEntrega: new Date().toISOString()         
         });
 
-        // B) Atualiza a quantidade de cada item no estoque
+      
         for (const itemAtualizado of leiturasEstoque) {
             transaction.update(itemAtualizado.ref, {
                 quantidade: itemAtualizado.novaQuantidade
