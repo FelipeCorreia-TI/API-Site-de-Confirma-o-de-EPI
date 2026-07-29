@@ -1,25 +1,8 @@
-const { db } = require("../config/firebase");
-
-function obterDataHoraSaoPaulo() {
-    const agora = new Date();
-    
-    // Formata no padrão pt-BR considerando o Timezone de SP
-    const formatador = new Intl.DateTimeFormat('pt-BR', {
-        timeZone: 'America/Sao_Paulo',
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-    });
-
-    return formatador.format(agora); // Retorna algo como: "29/07/2026, 14:35:10"
-}
+const {db} = require("../config/firebase");
 
 async function registrarEntrega(dados) {
     const { nome, baseOperacional, itens, assinatura } = dados;
+
 
     return await db.runTransaction(async (transaction) => {
         const leiturasEstoque = [];
@@ -48,14 +31,16 @@ async function registrarEntrega(dados) {
             });
         }
 
+    // 2. Fazer TODAS as escritas após a verificação
+        
+        // A) Grava o registro da entrega
         const novaEntregaRef = db.collection("retirada").doc();
         transaction.set(novaEntregaRef, {
             nome,
             baseOperacional,
             itens,
             assinatura,
-            dataEntregaFormatted: obterDataHoraSaoPaulo(), // Ex: "29/07/2026, 14:35:10"
-            dataEntrega: new Date().toISOString() 
+            dataEntrega: new Date().toISOString()
         });
 
         // B) Atualiza a quantidade de cada item no estoque
