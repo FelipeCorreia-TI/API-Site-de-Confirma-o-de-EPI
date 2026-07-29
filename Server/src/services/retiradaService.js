@@ -1,22 +1,18 @@
 const { db } = require("../config/firebase");
 
 
-function obterDataHoraSaoPaulo() {
+
+function obterDataSaoPaulo() {
     const agora = new Date();
-    
     
     const formatador = new Intl.DateTimeFormat('pt-BR', {
         timeZone: 'America/Sao_Paulo',
         day: '2-digit',
         month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
+        year: 'numeric'
     });
 
-    return formatador.format(agora);
+    return formatador.format(agora); // Retorna apenas: "29/07/2026"
 }
 
 async function registrarEntrega(dados) {
@@ -58,8 +54,8 @@ async function registrarEntrega(dados) {
             baseOperacional,
             itens,
             assinatura,
-            dataEntregaFormatted: obterDataHoraSaoPaulo(), 
-            dataEntrega: new Date().toISOString()         
+            dataEntregaFormatted: obterDataSaoPaulo(), // Ex: "29/07/2026"
+            dataEntrega: new Date().toISOString()       // Mantém o ISO UTC completo para ordenações/filtros
         });
 
       
