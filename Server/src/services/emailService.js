@@ -20,11 +20,9 @@ async function enviarEmailTeste() {
 // E-mail de confirmação de retirada
 async function enviarEmailRetirada(dados) {
     // Formata a data atual se não for passada no payload
-    const dataFormatada = new Date().toLocaleString("pt-BR", {
-        timeZone: "America/Sao_Paulo",
-        dateStyle: "short",
-        timeStyle: "medium"
-    });
+    const dataFormatada = dados.dataEntrega 
+        ? new Date(dados.dataEntrega).toLocaleString("pt-BR") 
+        : new Date().toLocaleString("pt-BR");
 
     const resultado = await resend.emails.send({
         from: "onboarding@resend.dev",
