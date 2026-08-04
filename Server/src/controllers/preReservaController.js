@@ -4,6 +4,8 @@ const {
 
 async function criarPreReserva(req, res) {
 
+    console.log("ENTREI NA ROTA PRE-RESERVA");
+
     try {
 
         const { email, itens } = req.body;
