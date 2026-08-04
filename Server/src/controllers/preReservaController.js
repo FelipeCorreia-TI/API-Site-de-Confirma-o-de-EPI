@@ -1,3 +1,7 @@
+const {
+    registrarPreReserva
+} = require("../services/preReservaService");
+
 async function criarPreReserva(req, res) {
 
     try {
@@ -18,18 +22,24 @@ async function criarPreReserva(req, res) {
             });
         }
 
-        console.log("=== NOVA PRÉ-RESERVA ===");
-        console.log("Email:", email);
-        console.log("Itens:", itens);
+        const resultado =
+            await registrarPreReserva({
+                email,
+                itens
+            });
 
         return res.status(201).json({
             sucesso: true,
-            mensagem: "Pré-reserva recebida."
+            mensagem: "Pré-reserva registrada com sucesso.",
+            id: resultado.id
         });
 
     } catch (erro) {
 
-        console.error(erro);
+        console.error(
+            "Erro ao registrar pré-reserva:",
+            erro
+        );
 
         return res.status(500).json({
             sucesso: false,
@@ -37,7 +47,6 @@ async function criarPreReserva(req, res) {
         });
 
     }
-
 }
 
 module.exports = {
