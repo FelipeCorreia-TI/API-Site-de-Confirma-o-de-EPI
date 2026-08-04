@@ -2,9 +2,11 @@ const {
     registrarPreReserva
 } = require("../services/preReservaService");
 
-async function criarPreReserva(req, res) {
+const {
+    enviarEmailPreReserva
+} = require("../services/emailService");
 
-    console.log("ENTREI NA ROTA PRE-RESERVA");
+async function criarPreReserva(req, res) {
 
     try {
 
@@ -29,6 +31,22 @@ async function criarPreReserva(req, res) {
                 email,
                 itens
             });
+
+        try {
+
+    await enviarEmailPreReserva({
+        email,
+        itens
+    });
+
+} catch (erroEmail) {
+
+    console.error(
+        "Erro ao enviar e-mail de pré-reserva:",
+        erroEmail
+    );
+
+}
 
         return res.status(201).json({
             sucesso: true,

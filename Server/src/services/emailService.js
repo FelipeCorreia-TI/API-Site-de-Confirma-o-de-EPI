@@ -56,7 +56,44 @@ async function enviarEmailRetirada(dados) {
     console.log("E-mail enviado com sucesso:", resultado);
 }
 
+async function enviarEmailPreReserva(dados) {
+
+    const dataFormatada = new Date().toLocaleDateString("pt-BR", {
+        timeZone: "America/Sao_Paulo",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+    });
+
+    const resultado = await resend.emails.send({
+        from: "onboarding@resend.dev",
+        to: ["cpfllinhas@gmail.com"],
+        subject: "Nova Pré-Reserva de EPI",
+        html: `
+            <h2>Nova Pré-Reserva de EPI</h2>
+
+            <p><strong>E-mail do colaborador:</strong> ${dados.email}</p>
+
+            <p><strong>Data:</strong> ${dataFormatada}</p>
+
+            <h3>Itens Reservados</h3>
+
+            <ul>
+                ${
+                    dados.itens && Array.isArray(dados.itens)
+                    ? dados.itens.map(item => `<li>${item}</li>`).join("")
+                    : "<li>Nenhum item informado</li>"
+                }
+            </ul>
+        `
+    });
+
+    console.log("E-mail de pré-reserva enviado:", resultado);
+}
+
+
 module.exports = {
     enviarEmailTeste,
-    enviarEmailRetirada
+    enviarEmailRetirada,
+    enviarEmailPreReserva
 };
