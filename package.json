@@ -1,0 +1,24 @@
+{
+  "name": "api-site-de-confirma-o-de-epi",
+  "version": "1.0.0",
+  "description": "![Node.js](https://img.shields.io/badge/Node.js-18.x-339933?style=for-the-badge&logo=nodedotjs)\r ![Express](https://img.shields.io/badge/Express.js-4.x-000000?style=for-the-badge&logo=express)\r ![Firebase](https://img.shields.io/badge/Firebase_Firestore-FFCA28?style=for-the-badge&logo=firebase)\r ![Resend](https://img.shields.io/badge/Resend_Email-000000?style=for-the-badge&logo=resend)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FelipeCorreia-TI/API-Site-de-Confirma-o-de-EPI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/FelipeCorreia-TI/API-Site-de-Confirma-o-de-EPI/issues"
+  },
+  "homepage": "https://github.com/FelipeCorreia-TI/API-Site-de-Confirma-o-de-EPI#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
+}
