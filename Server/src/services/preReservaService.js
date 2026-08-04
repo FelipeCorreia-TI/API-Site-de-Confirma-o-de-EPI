@@ -2,10 +2,9 @@ const { db } = require("../config/firebase");
 
 async function registrarPreReserva(dados) {
 
-    const {
-        email,
-        itens
-    } = dados;
+    console.log("INICIOU registrarPreReserva");
+
+    const { email, itens } = dados;
 
     const novaPreReservaRef =
         db.collection("preReservas").doc();
@@ -21,6 +20,8 @@ async function registrarPreReserva(dados) {
         dataCriacao: new Date().toISOString()
 
     });
+
+    console.log("SALVOU NO FIRESTORE");
 
     return {
         id: novaPreReservaRef.id
